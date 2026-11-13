@@ -189,3 +189,27 @@ docker run -p 8080:8080 -e DB_URL=... -e DB_USERNAME=... -e DB_PASSWORD=... -e J
 ```
 
 The Dockerfile builds the React app, bundles it into the Spring Boot jar, and serves everything on port 8080. Deployment steps are in [DEPLOY.md](DEPLOY.md).
+
+---
+
+## Streamlit edition (`streamlit_app/`)
+
+A Python version of the same ATS (admin, recruiter and candidate modules, application tracking, interviews, notifications and dashboard), built with Streamlit + SQLAlchemy. It's handy for a quick live demo on **Streamlit Community Cloud**.
+
+**Run locally**
+```bash
+pip install -r streamlit_app/requirements.txt
+streamlit run streamlit_app/app.py
+```
+The same demo accounts work (`admin@ats.com / admin123`, and so on).
+
+**Deploy on Streamlit Community Cloud**
+1. Go to https://share.streamlit.io and sign in with GitHub.
+2. Click **Create app** and choose this repository, branch `main`, main file `streamlit_app/app.py`.
+3. Click **Deploy**.
+
+**Database:** by default it uses a built-in SQLite file. On Streamlit Cloud that file is **reset whenever the app restarts or sleeps**, and the demo data is re-seeded. To keep data permanently, use MySQL. In the app's **Settings → Secrets**, add:
+```toml
+DATABASE_URL = "mysql+pymysql://USER:PASSWORD@HOST:PORT/DATABASE"
+```
+You can use a free hosted MySQL database (for example Aiven). Tables are created automatically.
