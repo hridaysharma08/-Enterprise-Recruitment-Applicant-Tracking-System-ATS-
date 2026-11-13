@@ -1,0 +1,19 @@
+# Render Blueprint: https://render.com/docs/blueprint-spec
+services:
+  - type: web
+    name: hiretrack-ats
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /api/jobs
+    envVars:
+      - key: DB_URL          # e.g. jdbc:mysql://HOST:PORT/defaultdb?sslMode=REQUIRED
+        sync: false
+      - key: DB_USERNAME
+        sync: false
+      - key: DB_PASSWORD
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: SEED_DEMO_DATA
+        value: "true"
